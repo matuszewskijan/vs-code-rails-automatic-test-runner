@@ -13,14 +13,6 @@
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "rails-test-runner.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
@@ -41,5 +33,45 @@
     "mocha": "^10.0.0",
     "typescript": "^4.8.4",
     "@vscode/test-electron": "^2.1.5"
+  },
+  "contributes": {
+    "configuration": [
+      {
+        "id": "rails-automatic-test-runner",
+        "title": "Rails Automatic Test Runner",
+        "order": 10,
+        "properties": {
+          "railsAutomaticTestRunner.framework": {
+            "type": "string",
+            "default": "rspec",
+            "enum": ["rspec", "minitest"],
+            "markdownDescription": "Specifies which framework is used to execute test commands",
+            "scope": "window",
+            "order": 1
+          },
+          "railsAutomaticTestRunner.testsDirectory": {
+            "type": "string",
+            "default": "spec",
+            "markdownDescription": "Specifies the folder with your test files",
+            "scope": "window",
+            "order": 2
+          },
+          "railsAutomaticTestRunner.bundleExec": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Use `bundle exec` before test command?",
+            "scope": "window",
+            "order": 3
+          },
+          "railsAutomaticTestRunner.args": {
+            "type": "string",
+            "default": null,
+            "markdownDescription": "Pass any arguments like `--fail-fast` as a string there",
+            "scope": "window",
+            "order": 4
+          }
+        }
+      }
+    ]
   }
 }

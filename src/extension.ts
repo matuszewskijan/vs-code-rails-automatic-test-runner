@@ -7,8 +7,12 @@ export function activate(context: vscode.ExtensionContext) {
 	let testsOutput = vscode.window.createOutputChannel("Tests");
 
 	let onFileSave = vscode.workspace.onDidSaveTextDocument(async (document: vscode.TextDocument) => {
+		const configuration = vscode.workspace.getConfiguration('railsAutomaticTestRunner');
+		const testsFilenameSuffix = _testFilenameSuffix(configuration);
+		const testsDirectory = configuration.testsDirectory;
+
 		if (document.languageId === "ruby" && document.uri.scheme === "file") {
-			const workspaceFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0]
+			const workspaceFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
 
 			if (!workspaceFolder) {
 				vscode.window.showErrorMessage("Rails Automatic Test runner won't work without Workspace");
@@ -18,21 +22,22 @@ export function activate(context: vscode.ExtensionContext) {
 			const workspacePath = workspaceFolder.uri.path;
 			const documentAbsolutePath = document.uri.path;
 			const documentRelativePath = documentAbsolutePath.replace(workspacePath, '');
-			const relativeTestPath = documentRelativePath.replace('/app/', '/spec/').replace('.rb', '_spec.rb');
+			const relativeTestPath = documentRelativePath.replace('/app/', `/${testsDirectory}/`).replace('.rb', testsFilenameSuffix);
 			const absoluteTestPath = workspacePath + relativeTestPath;
 
 			let testExists;
 			try {
-				await vscode.workspace.fs.stat(vscode.Uri.file(absoluteTestPath))
+				await vscode.workspace.fs.stat(vscode.Uri.file(absoluteTestPath));
 				testExists = true;
 			} catch(e) {
 				testExists = false;
 			}
 
 			if (testExists) {
-				testsOutput.clear()
+				const command = createCommand(configuration, relativeTestPath);
+				testsOutput.clear();
 				cp.exec(
-					`bundle exec rspec ./${relativeTestPath}`,
+					command,
 					{ timeout: 10000, cwd: workspacePath },
 					(err: string, stdout: string, stderr:string) => {
 						if (stdout) {
@@ -47,7 +52,7 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 				);
 			} else {
-				if (!documentAbsolutePath.includes('/spec')) {
+				if (!documentAbsolutePath.includes(`/${testsDirectory}`)) {
 					vscode.window.showErrorMessage("Rails Automatic Test runner: no corresponding test file found.");
 				}
 			}
@@ -55,6 +60,32 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(onFileSave);
+}
+
+function createCommand(configuration: vscode.WorkspaceConfiguration, testPath: string) {
+	let command = [];
+	if (configuration.bundleExec) { command.push("bundle exec"); }
+	if (configuration.framework === 'rspec') {
+		command.push("rspec");
+	} else if (configuration.framework === 'minitest') {
+		command.push("rails test");
+	}
+
+	command.push(`./${testPath}`);
+
+	if (configuration.args) { command.push(configuration.args); }
+
+	return command.join(' ');
+}
+
+function _testFilenameSuffix(configuration: vscode.WorkspaceConfiguration): string {
+	if (configuration.framework === 'rspec') {
+		return '_spec.rb';
+	} else if (configuration.framework === 'minitest') {
+		return '_test.rb';
+	} else {
+		return '_spec.rb';
+	}
 }
 
 export function deactivate() {}
