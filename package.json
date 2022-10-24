@@ -63,12 +63,26 @@
             "scope": "window",
             "order": 3
           },
+          "railsAutomaticTestRunner.envVariables": {
+            "type": "string",
+            "default": null,
+            "markdownDescription": "Pass any environment variables as a string there",
+            "scope": "window",
+            "order": 4
+          },
           "railsAutomaticTestRunner.args": {
             "type": "string",
             "default": null,
             "markdownDescription": "Pass any arguments like `--fail-fast` as a string there",
             "scope": "window",
-            "order": 4
+            "order": 5
+          },
+          "railsAutomaticTestRunner.automaticOutputDisplay": {
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Automatically switch to the output tab, might be interrupting when working with terminal.",
+            "scope": "window",
+            "order": 6
           }
         }
       }

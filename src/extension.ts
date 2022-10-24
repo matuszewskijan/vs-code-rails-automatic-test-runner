@@ -36,6 +36,8 @@ export function activate(context: vscode.ExtensionContext) {
 			if (testExists) {
 				const command = createCommand(configuration, relativeTestPath);
 				testsOutput.clear();
+				if (configuration.automaticOutputDisplay) { testsOutput.show(); }
+
 				testsOutput.appendLine(`Executing command: ${command}`);
 				cp.exec(
 					command,
@@ -48,8 +50,6 @@ export function activate(context: vscode.ExtensionContext) {
 						} else if (err) {
 							vscode.window.showErrorMessage('Rails Automatic Test runner error: ' + err);
 						}
-
-						testsOutput.show();
 					}
 				);
 			} else {
@@ -65,6 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function createCommand(configuration: vscode.WorkspaceConfiguration, testPath: string) {
 	let command = [];
+	if (configuration.envVariables) { command.push(configuration.envVariables); }
 	if (configuration.bundleExec) { command.push("bundle exec"); }
 	if (configuration.framework === 'rspec') {
 		command.push("rspec");
@@ -72,7 +73,9 @@ function createCommand(configuration: vscode.WorkspaceConfiguration, testPath: s
 		command.push("rails test");
 	}
 
-	command.push(`./${testPath}`);
+	let formattedTestPath = testPath;
+	if (testPath.charAt(0) === '/') { formattedTestPath = formattedTestPath.substring(1); }
+	command.push(formattedTestPath);
 
 	if (configuration.args) { command.push(configuration.args); }
 
