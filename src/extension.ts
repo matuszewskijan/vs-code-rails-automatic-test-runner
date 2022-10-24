@@ -36,6 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 			if (testExists) {
 				const command = createCommand(configuration, relativeTestPath);
 				testsOutput.clear();
+				testsOutput.appendLine(`Executing command: ${command}`);
 				cp.exec(
 					command,
 					{ timeout: 10000, cwd: workspacePath },
