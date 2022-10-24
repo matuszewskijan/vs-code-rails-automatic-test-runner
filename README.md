@@ -1,71 +1,27 @@
-# rails-test-runner README
+# Rails Automatic Test Runner for VS Code
 
-This is the README for your extension "rails-test-runner". After writing up a brief description, we recommend including the following sections.
+Run your test files automatically on your source file save.
 
-## Features
+### How it works?
+While saving any application `app/models/{your_model}.rb` file it will look for it's corresponding test file, depends on test framework you use it could be either: `spec/models/{your_model}_spec.rb`(RSpec) or `test/models/{your_model}_test.rb`(Minitest).
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+The results of the test command will be displayed in the `Output` tab:
+\!\[Example output\]\(images/example-output.png\)
 
-For example if there is an image subfolder under your extension project workspace:
+**Supports:**
+- RSpec
+- Minitest
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### Setup
+1. Create new VS Code workspace with your Rails application as the root folder
+1. Choose your testing framework in extension settings
+1. Make sure you have specified proper test directory in settings
+1. Try saving any of your files in `/app` directory, it should either run test or display `no corresponding test file found` error
 
 ## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+* `railsAutomaticTestRunner.framework`: Specifies which framework is used to execute test commands
+* `railsAutomaticTestRunner.testsDirectory`: Specifies the folder where your test files are located
+* `railsAutomaticTestRunner.bundleExec`: Append `bundle exec` before test command?
+* `railsAutomaticTestRunner.envVariables`: Pass any environment variables as a string there, eg: `CRUCIAL_API_KEY=test`
+* `railsAutomaticTestRunner.args`: Pass any arguments like `--fail-fast` as a string there
+* `railsAutomaticTestRunner.automaticOutputDisplay`: Automatically switch to the output tab, when enabled might interrupt terminal work
