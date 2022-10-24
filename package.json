@@ -2,7 +2,7 @@
   "name": "rails-automatic-test-runner",
   "displayName": "Rails Automatic Test Runner",
   "description": "Run your Rails tests automatically on file save",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.72.0"
   },
