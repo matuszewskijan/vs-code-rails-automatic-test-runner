@@ -2,7 +2,7 @@
   "name": "rails-automatic-test-runner",
   "displayName": "Rails Automatic Test Runner",
   "description": "Run your Rails tests automatically on file save",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.72.0"
   },
@@ -86,7 +86,7 @@
           },
           "railsAutomaticTestRunner.automaticOutputDisplay": {
             "type": "boolean",
-            "default": false,
+            "default": true,
             "markdownDescription": "Automatically switch to the output tab, might be interrupting when working with terminal.",
             "scope": "window",
             "order": 6
