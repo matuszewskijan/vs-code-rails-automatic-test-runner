@@ -38,20 +38,14 @@ export function activate(context: vscode.ExtensionContext) {
 				testsOutput.clear();
 				if (configuration.automaticOutputDisplay) { testsOutput.show(); }
 
-				testsOutput.appendLine(`Executing command: ${command}`);
-				cp.exec(
-					command,
-					{ timeout: 10000, cwd: workspacePath },
-					(err: string, stdout: string, stderr:string) => {
-						if (stdout) {
-							testsOutput.appendLine(stdout);
-						} else if (stderr) {
-							testsOutput.appendLine(stdout);
-						} else if (err) {
-							vscode.window.showErrorMessage('Rails Automatic Test runner error: ' + err);
-						}
-					}
-				);
+				let terminal = vscode.window.terminals.find(t => t.name === 'Rails Test Runner')
+				if (terminal === undefined) {
+					terminal = vscode.window.createTerminal('Rails Test Runner');
+				}
+
+				if (configuration.automaticOutputDisplay) { terminal.show(); }
+
+				terminal.sendText(command)
 			} else {
 				if (!documentAbsolutePath.includes(`/${testsDirectory}`)) {
 					vscode.window.showErrorMessage("Rails Automatic Test runner: no corresponding test file found.");
