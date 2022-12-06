@@ -7,6 +7,8 @@ While saving any application `app/models/{your_model}.rb` file it will look for 
 
 The results of the test command will be displayed in the `Rails Test Runner` terminal.
 
+![Example output](https://raw.githubusercontent.com/matuszewskijan/vs-code-rails-automatic-test-runner/1ba9ee869c5779d254b1d9909536aae63c4c0026/images/VS-Code-Rails-automatic-test-runner.gif)
+
 **Supports:**
 - RSpec
 - Minitest
