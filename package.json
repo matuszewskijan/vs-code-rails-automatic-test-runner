@@ -2,7 +2,7 @@
   "name": "rails-automatic-test-runner",
   "displayName": "Rails Automatic Test Runner",
   "description": "Run your Rails tests automatically on file save",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.72.0"
   },
@@ -15,7 +15,7 @@
   "main": "./out/extension.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jmatuszewski/vs-code-rails-automatic-test-runner.git"
+    "url": "https://github.com/matuszewskijan/vs-code-rails-automatic-test-runner.git"
   },
   "publisher": "jmatuszewski",
   "icon": "images/rspec.png",
