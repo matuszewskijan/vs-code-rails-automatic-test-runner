@@ -2,7 +2,7 @@
   "name": "rails-automatic-test-runner",
   "displayName": "Rails Automatic Test Runner",
   "description": "Run your Rails tests automatically on file save",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.72.0"
   },
@@ -92,6 +92,13 @@
             "markdownDescription": "Automatically switch to the output tab, might be interrupting when working with terminal.",
             "scope": "window",
             "order": 6
+          },
+          "railsAutomaticTestRunner.ignoredDirs": {
+            "type": "array",
+            "default": [],
+            "markdownDescription": "Ignore folders in your workspace where file save won't start test",
+            "scope": "window",
+            "order": 7
           }
         }
       }

@@ -25,6 +25,12 @@ export function activate(context: vscode.ExtensionContext) {
 			const relativeTestPath = documentRelativePath.replace('/app/', `/${testsDirectory}/`).replace('.rb', testsFilenameSuffix);
 			const absoluteTestPath = workspacePath + relativeTestPath;
 
+			const fileInIgnoredDir = configuration.ignoredDirs.some((ignoredDir: string) => {
+				return relativeTestPath.includes(ignoredDir)
+			})
+
+			if (fileInIgnoredDir) { return; }
+
 			let testExists;
 			try {
 				await vscode.workspace.fs.stat(vscode.Uri.file(absoluteTestPath));

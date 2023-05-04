@@ -7,3 +7,6 @@
 
 ## 0.0.5
 - Execute test command in interactive terminal rather than in output tab
+
+## 0.0.7
+- Allow ignoring specific dirs from test execution
